@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Gold_e-Shop.props" />
+</Project>
