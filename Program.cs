@@ -52,6 +52,17 @@ builder.Services.AddAuthorization();
 
 // ---------- CONTROLLERS ----------
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendOnly", policy =>
+    {
+        policy
+            .WithOrigins("https://zlaty-eshop-project-production.up.railway.app")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials(); // ⬅️ дозвіл на кукі / credentials
+    });
+});
 
 // ---------- SWAGGER ----------
 builder.Services.AddEndpointsApiExplorer();
@@ -107,6 +118,8 @@ app.UseSwaggerUI(c =>
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("FrontendOnly");
 
 // ---------- Controllers ----------
 app.MapControllers(); // тут підключаються всі контролери (AuthController і т.д.)
