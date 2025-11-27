@@ -19,6 +19,11 @@ public class CategoriesController : ControllerBase
         var categories = await _db.Categories
             .AsNoTracking()
             .OrderBy(c => c.Id)
+            .Select(c => new CategoryDto
+            {
+                Id = c.Id,
+                Name = c.Name
+            })
             .ToListAsync();
 
         return Ok(categories);
