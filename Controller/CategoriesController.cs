@@ -62,7 +62,6 @@ public class CategoriesController : ControllerBase
         }
         catch (DbUpdateException ex)
         {
-            // FK violation (якщо існують products з цією категорією)
             var msg = ex.InnerException?.Message ?? ex.Message;
             var isFk = msg.Contains("foreign key", StringComparison.OrdinalIgnoreCase)
                        || msg.Contains("fk_products_category_id", StringComparison.OrdinalIgnoreCase)

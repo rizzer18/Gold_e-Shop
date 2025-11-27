@@ -113,7 +113,8 @@ D:\MyProjeckt\Gold_e-Shop\Gold_e-Shop\bin\Debug\net9.0\Microsoft.IdentityModel.P
 D:\MyProjeckt\Gold_e-Shop\Gold_e-Shop\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\MyProjeckt\Gold_e-Shop\Gold_e-Shop\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
 D:\MyProjeckt\Gold_e-Shop\Gold_e-Shop\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
-D:\MyProjeckt\Gold_e-Shop\Gold_e-Shop\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\MyProjeckt\Gold_e-Shop\Gold_e-Shop\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\MyProjeckt\Gold_e-Shop\Gold_e-Shop\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\MyProjeckt\Gold_e-Shop\Gold_e-Shop\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\MyProjeckt\Gold_e-Shop\Gold_e-Shop\obj\Debug\net9.0\Gold_e-Shop.sourcelink.json
+D:\MyProjeckt\Gold_e-Shop\Gold_e-Shop\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

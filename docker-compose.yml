@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  api:
+    container_name: gold-eshop-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "Host=interchange.proxy.rlwy.net;Port=25521;Database=railway;Username=postgres;Password=TVOJE_HESLO;Include Error Detail=true"
+      Jwt__Secret: "TVUJ_DLOUHY_TAJNY_KLIC"
+      Jwt__Issuer: "Gold_eShop"
+      Jwt__Audience: "Gold_eShop"
+      Jwt__ExpiresHours: "12"
+      Gmail__User: "zlatyehsop@gmail.com"
+      Gmail__AppPassword: "TVUJ_APP_PASSWORD"
+    volumes:
+      - ./uploads:/app/uploads
