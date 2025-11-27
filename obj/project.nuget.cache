@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zt4jjN+tu/w=",
+  "dgSpecHash": "LlvGj2LcGbo=",
   "success": true,
-  "projectFilePath": "D:\\MyProjeckt\\Gold_e-shop\\Gold_e-Shop\\Gold_e-Shop.csproj",
+  "projectFilePath": "D:\\MyProjeckt\\Gold_e-Shop\\Gold_e-Shop\\Gold_e-Shop.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dpoli\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\dpoli\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
