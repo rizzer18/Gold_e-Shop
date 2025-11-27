@@ -19,7 +19,7 @@
   },
   {
     "ContainingType": "AuthController",
-    "Method": "OnlyAdminEndpoint",
+    "Method": "IsAdmin",
     "RelativePath": "api/Auth/isAdmin",
     "HttpMethod": "GET",
     "IsController": true,

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Gold_e-Shop")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c0ab3824946c7ec0ff5a77c506aaccb1cdcb5b0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a4a4f909d5b12af3a2744707fae598c6a1188eb")]
 [assembly: System.Reflection.AssemblyProductAttribute("Gold_e-Shop")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Gold_e-Shop")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

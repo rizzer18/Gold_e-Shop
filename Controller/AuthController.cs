@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Gold_e_Shop.DTO;
 using Gold_e_Shop.Model;
 using Gold_e_Shop.Services;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 
 [ApiController]
@@ -98,9 +99,12 @@ public class AuthController : ControllerBase
     // GET /api/auth/isAdmin
     [Authorize(Roles = "admin")]
     [HttpGet("isAdmin")]
-    public IActionResult OnlyAdminEndpoint()
+    public IActionResult IsAdmin()
     {
-        return Ok("Пішов в дупу");
+        var role = User.FindFirstValue(ClaimTypes.Role);
+        var isAdmin = string.Equals(role, "admin", StringComparison.OrdinalIgnoreCase);
+
+        return Ok(new { isAdmin });
     }
 
 }
