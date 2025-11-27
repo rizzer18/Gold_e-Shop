@@ -87,6 +87,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 app.UseStaticFiles();
 var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "uploads");
+Directory.CreateDirectory(uploadsPath);
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(uploadsPath),
