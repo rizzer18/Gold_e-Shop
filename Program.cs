@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -52,12 +52,15 @@ builder.Services.AddAuthorization();
 
 // ---------- CONTROLLERS ----------
 builder.Services.AddControllers();
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() 
+                     ?? new[] { "http://localhost:3000", "https://zlaty-eshop-project-production.up.railway.app" };
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendOnly", policy =>
     {
         policy
-            .WithOrigins("https://zlaty-eshop-project-production.up.railway.app")
+            .WithOrigins(allowedOrigins)
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials(); // ⬅️ дозвіл на кукі / credentials
@@ -96,6 +99,134 @@ builder.Services.AddSwaggerGen(c =>
 // 2) Побудова застосунку
 // ===========================================
 var app = builder.Build();
+
+// Automatically apply database migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        if (context.Database.GetPendingMigrations().Any())
+        {
+            Console.WriteLine("⏳ Applying pending database migrations...");
+            context.Database.Migrate();
+            Console.WriteLine("✅ Database migrations applied successfully.");
+        }
+        else
+        {
+            Console.WriteLine("✅ Database is up to date. No pending migrations.");
+        }
+
+        // Seed default admin user if no users exist
+        if (!context.Users.Any())
+        {
+            Console.WriteLine("⏳ Seeding default admin user...");
+            var adminUser = new Gold_e_Shop.Model.User
+            {
+                Username = "admin",
+                Email = "admin@example.com",
+                Password = BCrypt.Net.BCrypt.HashPassword("AdminPassword123!"),
+                Role = "admin",
+                CreatedAt = DateTime.UtcNow
+            };
+            context.Users.Add(adminUser);
+            context.SaveChanges();
+            Console.WriteLine("✅ Seeded admin: admin@example.com / AdminPassword123!");
+        }
+
+        // Seed default products if database is empty
+        if (!context.Products.Any())
+        {
+            Console.WriteLine("⏳ Seeding default products...");
+            
+            // Create a default category
+            var category = context.Categories.FirstOrDefault();
+            if (category == null)
+            {
+                category = new Gold_e_Shop.Model.Category { Name = "Talismany" };
+                context.Categories.Add(category);
+                context.SaveChanges();
+            }
+
+            var product1 = new Gold_e_Shop.Model.Product
+            {
+                Name = "Talisman Síla Týmu",
+                Description = "Limitovaný stříbrný talisman zobrazující jednotu, vytrvalost a odhodlání šampiónů.",
+                Price = 2490.00m,
+                CategoryId = category.Id,
+                Stock = 10,
+                CreatedAt = DateTime.UtcNow,
+                Likes = 0,
+                Specification = "Ruční výroba, rytina",
+                Material = "Stříbro 925/1000",
+                Weight = 12.50m
+            };
+
+            var product2 = new Gold_e_Shop.Model.Product
+            {
+                Name = "Zlatý prsten Bojovník",
+                Description = "Elegance spojená se skrytou vnitřní silou. Perfektní doplněk pro každodenní motivaci.",
+                Price = 8990.00m,
+                CategoryId = category.Id,
+                Stock = 5,
+                CreatedAt = DateTime.UtcNow,
+                Likes = 0,
+                Specification = "Šířka 6mm, leštěný povrch",
+                Material = "Žluté zlato 585/1000",
+                Weight = 6.80m
+            };
+
+            var product3 = new Gold_e_Shop.Model.Product
+            {
+                Name = "Stříbrný přívěsek Šampión",
+                Description = "Masivní přívěsek inspirovaný disciplínou a vítězstvím v ringu. Dodáváno s koženou šňůrkou.",
+                Price = 3190.00m,
+                CategoryId = category.Id,
+                Stock = 8,
+                CreatedAt = DateTime.UtcNow,
+                Likes = 0,
+                Specification = "Rozměry 25x25mm",
+                Material = "Patina stříbro 925/1000",
+                Weight = 9.20m
+            };
+
+            context.Products.AddRange(product1, product2, product3);
+            context.SaveChanges();
+
+            // Add media for the products
+            var media1 = new Gold_e_Shop.Model.ProductMedia
+            {
+                ProductId = product1.Id,
+                MediaUrl = "/uploads/media__1782490079650.jpg",
+                MediaType = "image"
+            };
+
+            var media2 = new Gold_e_Shop.Model.ProductMedia
+            {
+                ProductId = product2.Id,
+                MediaUrl = "/uploads/media__1782490079650.jpg",
+                MediaType = "image"
+            };
+
+            var media3 = new Gold_e_Shop.Model.ProductMedia
+            {
+                ProductId = product3.Id,
+                MediaUrl = "/uploads/media__1782490079650.jpg",
+                MediaType = "image"
+            };
+
+            context.ProductMedia.AddRange(media1, media2, media3);
+            context.SaveChanges();
+            
+            Console.WriteLine("✅ Seeded 3 default products with boxer image.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ An error occurred while migrating the database: {ex.Message}");
+    }
+}
 app.UseStaticFiles();
 var uploadsPath = Path.Combine(app.Environment.ContentRootPath, "uploads");
 Directory.CreateDirectory(uploadsPath);

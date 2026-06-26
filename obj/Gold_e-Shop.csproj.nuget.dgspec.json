@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\MyProjeckt\\Gold_e-Shop\\Gold_e-Shop\\Gold_e-Shop.csproj": {}
+    "C:\\Users\\roman\\Desktop\\Newfolder\\Gold_e-shop\\Gold_e-Shop\\Gold_e-Shop.csproj": {}
   },
   "projects": {
-    "D:\\MyProjeckt\\Gold_e-Shop\\Gold_e-Shop\\Gold_e-Shop.csproj": {
+    "C:\\Users\\roman\\Desktop\\Newfolder\\Gold_e-shop\\Gold_e-Shop\\Gold_e-Shop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\MyProjeckt\\Gold_e-Shop\\Gold_e-Shop\\Gold_e-Shop.csproj",
+        "projectUniqueName": "C:\\Users\\roman\\Desktop\\Newfolder\\Gold_e-shop\\Gold_e-Shop\\Gold_e-Shop.csproj",
         "projectName": "Gold_e-Shop",
-        "projectPath": "D:\\MyProjeckt\\Gold_e-Shop\\Gold_e-Shop\\Gold_e-Shop.csproj",
-        "packagesPath": "C:\\Users\\dpoli\\.nuget\\packages\\",
-        "outputPath": "D:\\MyProjeckt\\Gold_e-Shop\\Gold_e-Shop\\obj\\",
+        "projectPath": "C:\\Users\\roman\\Desktop\\Newfolder\\Gold_e-shop\\Gold_e-Shop\\Gold_e-Shop.csproj",
+        "packagesPath": "C:\\Users\\roman\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\roman\\Desktop\\Newfolder\\Gold_e-shop\\Gold_e-Shop\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\dpoli\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\roman\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -117,7 +117,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

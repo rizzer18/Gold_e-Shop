@@ -1,6 +1,19 @@
 version: "3.9"
 
 services:
+  db:
+    image: postgres:16-alpine
+    container_name: gold-eshop-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secretpassword123
+      POSTGRES_DB: gold_eshop
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
   api:
     container_name: gold-eshop-api
     build:
@@ -8,14 +21,19 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:8080"
+    depends_on:
+      - db
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      ConnectionStrings__DefaultConnection: "Host=interchange.proxy.rlwy.net;Port=25521;Database=railway;Username=postgres;Password=TVOJE_HESLO;Include Error Detail=true"
-      Jwt__Secret: "TVUJ_DLOUHY_TAJNY_KLIC"
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=gold_eshop;Username=postgres;Password=secretpassword123;Include Error Detail=true"
+      Jwt__Secret: "dd0ac0336b8e14fd357ab26dcfe617a84ec8634b60915ed63b081b57249bb229eew32"
       Jwt__Issuer: "Gold_eShop"
       Jwt__Audience: "Gold_eShop"
       Jwt__ExpiresHours: "12"
       Gmail__User: "zlatyehsop@gmail.com"
-      Gmail__AppPassword: "TVUJ_APP_PASSWORD"
+      Gmail__AppPassword: "fftd zztl ezgq pwnz"
     volumes:
       - ./uploads:/app/uploads
+
+volumes:
+  pgdata:
