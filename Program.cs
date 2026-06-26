@@ -52,18 +52,22 @@ builder.Services.AddAuthorization();
 
 // ---------- CONTROLLERS ----------
 builder.Services.AddControllers();
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() 
-                     ?? new[] { "http://localhost:3000", "https://zlaty-eshop-project-production-6e9d.up.railway.app" };
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendOnly", policy =>
     {
         policy
-            .WithOrigins(allowedOrigins)
+            .SetIsOriginAllowed(origin =>
+            {
+                if (string.IsNullOrEmpty(origin)) return false;
+                var host = new Uri(origin).Host;
+                return host.Equals("localhost", StringComparison.OrdinalIgnoreCase) || 
+                       host.Equals("127.0.0.1", StringComparison.OrdinalIgnoreCase) || 
+                       host.EndsWith(".up.railway.app", StringComparison.OrdinalIgnoreCase);
+            })
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials(); // ⬅️ дозвіл на кукі / credentials
+            .AllowCredentials();
     });
 });
 
