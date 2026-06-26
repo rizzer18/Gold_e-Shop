@@ -53,7 +53,7 @@ builder.Services.AddAuthorization();
 // ---------- CONTROLLERS ----------
 builder.Services.AddControllers();
 var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() 
-                     ?? new[] { "http://localhost:3000", "https://zlaty-eshop-project-production.up.railway.app" };
+                     ?? new[] { "http://localhost:3000", "https://zlaty-eshop-project-production-6e9d.up.railway.app" };
 
 builder.Services.AddCors(options =>
 {
