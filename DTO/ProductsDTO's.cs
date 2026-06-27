@@ -1,4 +1,4 @@
-﻿public sealed class ProductListResponse
+public sealed class ProductListResponse
 {
     public int Page { get; set; }
     public int TotalPages { get; set; }
@@ -14,6 +14,6 @@ public sealed class CreateUpdateProductRequest
     public int? CategoryId { get; set; }
     public int Stock { get; set; } = 0;
     public string? Specification { get; set; }
-    public string? Material { get; set; }
+    public List<string>? Materials { get; set; }
     public decimal? Weight { get; set; }
 }

@@ -73,7 +73,7 @@ public class OrdersController : ControllerBase
                 quantity = oi.Quantity,
                 category_id = oi.Product.CategoryId,
                 specification = oi.Product.Specification,
-                material = oi.Product.Material,
+                materials = oi.Product.Materials,
                 weight = oi.Product.Weight,
                 mediaUrls = (oi.Product.Media ?? new List<ProductMedia>())
                     .Select(m => ToPublicUrl(m.MediaUrl))

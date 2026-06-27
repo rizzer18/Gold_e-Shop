@@ -50,7 +50,7 @@ public class ProductsController : ControllerBase
             p.ImageUrl,
             p.Likes,
             p.Specification,
-            p.Material,
+            materials = p.Materials,
             p.Weight,
             mediaUrls = p.Media.Select(m => baseUrl + m.MediaUrl).ToArray()
         });
@@ -93,7 +93,7 @@ public class ProductsController : ControllerBase
                 p.ImageUrl,
                 p.Likes,
                 p.Specification,
-                p.Material,
+                materials = p.Materials,
                 p.Weight,
                 mediaUrls = p.Media.Select(m => ToPublicUrl(m.MediaUrl)).ToArray()
             })
@@ -131,7 +131,7 @@ public class ProductsController : ControllerBase
             p.ImageUrl,
             p.Likes,
             p.Specification,
-            p.Material,
+            materials = p.Materials,
             p.Weight,
             mediaUrls = p.Media.Select(m => ToPublicUrl(m.MediaUrl)).ToArray()
         });
@@ -150,7 +150,7 @@ public class ProductsController : ControllerBase
             CategoryId = req.CategoryId,
             Stock = req.Stock,
             Specification = req.Specification,
-            Material = req.Material,
+            Materials = req.Materials ?? new List<string>(),
             Weight = req.Weight,
             CreatedAt = DateTime.UtcNow
         };
@@ -179,7 +179,7 @@ public class ProductsController : ControllerBase
         p.CategoryId = req.CategoryId;
         p.Stock = req.Stock;
         p.Specification = req.Specification;
-        p.Material = req.Material;
+        p.Materials = req.Materials ?? new List<string>();
         p.Weight = req.Weight;
 
         await _db.SaveChangesAsync();

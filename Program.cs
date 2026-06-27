@@ -163,7 +163,7 @@ using (var scope = app.Services.CreateScope())
                 CreatedAt = DateTime.UtcNow,
                 Likes = 0,
                 Specification = "Ruční výroba, rytina",
-                Material = "Stříbro 925/1000",
+                Materials = new List<string> { "Stříbro 925/1000" },
                 Weight = 12.50m
             };
 
@@ -177,7 +177,7 @@ using (var scope = app.Services.CreateScope())
                 CreatedAt = DateTime.UtcNow,
                 Likes = 0,
                 Specification = "Šířka 6mm, leštěný povrch",
-                Material = "Žluté zlato 585/1000",
+                Materials = new List<string> { "Žluté zlato 585/1000" },
                 Weight = 6.80m
             };
 
@@ -191,7 +191,7 @@ using (var scope = app.Services.CreateScope())
                 CreatedAt = DateTime.UtcNow,
                 Likes = 0,
                 Specification = "Rozměry 25x25mm",
-                Material = "Patina stříbro 925/1000",
+                Materials = new List<string> { "Patina stříbro 925/1000" },
                 Weight = 9.20m
             };
 

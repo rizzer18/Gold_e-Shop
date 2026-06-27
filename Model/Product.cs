@@ -1,4 +1,4 @@
-﻿using static Gold_e_Shop.Enums.Enums;
+using static Gold_e_Shop.Enums.Enums;
 
 namespace Gold_e_Shop.Model
 {
@@ -15,7 +15,7 @@ namespace Gold_e_Shop.Model
         public string? ImageUrl { get; set; }
         public int Likes { get; set; }
         public string? Specification { get; set; }
-        public string? Material { get; set; }
+        public List<string> Materials { get; set; } = new List<string>();
         public decimal? Weight { get; set; }          // numeric(10,2)
 
         public ICollection<ProductMedia> Media { get; set; } = new List<ProductMedia>();
