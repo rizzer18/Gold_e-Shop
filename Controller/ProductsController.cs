@@ -1,4 +1,4 @@
-﻿// Controllers/ProductsController.cs
+// Controllers/ProductsController.cs
 using Gold_e_Shop.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -212,6 +212,27 @@ public class ProductsController : ControllerBase
         await _db.SaveChangesAsync();
 
         return Ok(new { message = "Product and all related records deleted successfully" });
+    }
+
+    [Authorize(Roles = "admin")]
+    [HttpDelete("{productId:int}/media")]
+    public async Task<IActionResult> DeleteMedia(int productId, [FromQuery] string mediaUrl)
+    {
+        var relativeUrl = mediaUrl;
+        if (mediaUrl.Contains("/uploads/"))
+        {
+            var idx = mediaUrl.IndexOf("/uploads/");
+            relativeUrl = mediaUrl.Substring(idx);
+        }
+
+        var m = await _db.ProductMedia.FirstOrDefaultAsync(x => x.ProductId == productId && x.MediaUrl == relativeUrl);
+        if (m == null) return NotFound(new { message = "Media file not found" });
+
+        TryDeletePhysicalFile(m.MediaUrl);
+        _db.ProductMedia.Remove(m);
+        await _db.SaveChangesAsync();
+
+        return Ok(new { message = "Media file deleted successfully" });
     }
 
     // ---- helpers ----
