@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using Gold_e_Shop.DTO;
@@ -331,15 +331,25 @@ public class OrdersController : ControllerBase
 </html>
 ";
 
-            // --- Odeslání emailů (Gmail SMTP) ---
-            await Task.WhenAll(
-                SendEmailAsync(email, $"Potvrzení objednávky č. {orderId}", guestHtml),
-                SendEmailAsync(_gmailUser, $"Nová objednávka č. {orderId}", adminHtml)
-            );
+            // --- Odeslání emailů (Gmail SMTP) v pozadí, aby se neblokoval klient ---
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await Task.WhenAll(
+                        SendEmailAsync(email, $"Potvrzení objednávky č. {orderId}", guestHtml),
+                        SendEmailAsync(_gmailUser, $"Nová objednávka č. {orderId}", adminHtml)
+                    );
+                }
+                catch (Exception emailEx)
+                {
+                    Console.Error.WriteLine($"Error sending emails for order {orderId}: {emailEx}");
+                }
+            });
 
             return StatusCode(200, new
             {
-                message = "Objednávka vytvořena a e-maily odeslány",
+                message = "Objednávka vytvořena",
                 orderId,
                 sessionId
             });
