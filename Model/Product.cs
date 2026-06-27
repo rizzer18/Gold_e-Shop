@@ -17,6 +17,7 @@ namespace Gold_e_Shop.Model
         public string? Specification { get; set; }
         public List<string> Materials { get; set; } = new List<string>();
         public decimal? Weight { get; set; }          // numeric(10,2)
+        public int SortOrder { get; set; } = 0;
 
         public ICollection<ProductMedia> Media { get; set; } = new List<ProductMedia>();
         public ICollection<Cart> Carts { get; set; } = new List<Cart>();

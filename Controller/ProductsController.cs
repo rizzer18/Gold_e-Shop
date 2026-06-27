@@ -17,21 +17,35 @@ public class ProductsController : ControllerBase
         _env = env;
     }
 
-    // GET /api/products?page=1&limit=10
+    // GET /api/products?page=1&limit=10&inStock=true
     [HttpGet]
-    public async Task<ActionResult<ProductListResponse>> GetAll([FromQuery] int page = 1, [FromQuery] int limit = 10)
+    public async Task<ActionResult<ProductListResponse>> GetAll([FromQuery] int page = 1, [FromQuery] int limit = 10, [FromQuery] bool? inStock = null)
     {
         page = page <= 0 ? 1 : page;
         limit = limit <= 0 ? 10 : limit;
 
-        var total = await _db.Products.CountAsync();
+        IQueryable<Product> query = _db.Products;
+        if (inStock != null)
+        {
+            if (inStock.Value)
+            {
+                query = query.Where(p => p.Stock > 0);
+            }
+            else
+            {
+                query = query.Where(p => p.Stock == 0);
+            }
+        }
+
+        var total = await query.CountAsync();
         var totalPages = (int)Math.Ceiling(total / (double)limit);
 
         // 1) ТІЛЬКИ ДАНІ з БД
-        var products = await _db.Products
+        var products = await query
             .AsNoTracking()
             .Include(p => p.Media)
-            .OrderBy(p => p.Id)
+            .OrderBy(p => p.SortOrder)
+            .ThenBy(p => p.Id)
             .Skip((page - 1) * limit)
             .Take(limit)
             .ToListAsync();
@@ -78,7 +92,8 @@ public class ProductsController : ControllerBase
 
         var items = await query
             .AsNoTracking()
-            .OrderBy(p => p.Id)
+            .OrderBy(p => p.SortOrder)
+            .ThenBy(p => p.Id)
             .Skip((page - 1) * limit)
             .Take(limit)
             .Select(p => new
@@ -281,5 +296,29 @@ public class ProductsController : ControllerBase
     {
         var req = HttpContext.Request;
         return $"{req.Scheme}://{req.Host}{storedUrl}";
+    }
+
+    // PUT /api/products/reorder
+    [Authorize(Roles = "admin")]
+    [HttpPut("reorder")]
+    public async Task<IActionResult> Reorder([FromBody] List<int> productIds)
+    {
+        if (productIds == null || productIds.Count == 0)
+        {
+            return BadRequest(new { message = "Seznam ID produktů nesmí být prázdný." });
+        }
+
+        for (int i = 0; i < productIds.Count; i++)
+        {
+            var id = productIds[i];
+            var product = await _db.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (product != null)
+            {
+                product.SortOrder = i;
+            }
+        }
+
+        await _db.SaveChangesAsync();
+        return Ok(new { message = "Pořadí produktů bylo úspěšně aktualizováno." });
     }
 }

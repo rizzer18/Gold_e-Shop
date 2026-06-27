@@ -59,6 +59,9 @@ public class AppDbContext : DbContext
              .WithMany(c => c.Products)
              .HasForeignKey(x => x.CategoryId)
              .HasConstraintName("fk_products_category_id");
+
+            e.Property(x => x.SortOrder)
+             .HasDefaultValue(0);
         });
 
         // product_media
