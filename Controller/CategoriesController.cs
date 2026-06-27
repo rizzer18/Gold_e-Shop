@@ -1,4 +1,4 @@
-﻿// Controllers/CategoriesController.cs
+// Controllers/CategoriesController.cs
 using Gold_e_Shop.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,8 @@ public class CategoriesController : ControllerBase
     {
         var categories = await _db.Categories
             .AsNoTracking()
-            .OrderBy(c => c.Id)
+            .OrderBy(c => c.SortOrder)
+            .ThenBy(c => c.Id)
             .Select(c => new CategoryDto
             {
                 Id = c.Id,
@@ -27,6 +28,30 @@ public class CategoriesController : ControllerBase
             .ToListAsync();
 
         return Ok(categories);
+    }
+
+    // PUT /api/categories/reorder   (admin)
+    [Authorize(Roles = "admin")]
+    [HttpPut("reorder")]
+    public async Task<IActionResult> Reorder([FromBody] List<int> categoryIds)
+    {
+        if (categoryIds == null || categoryIds.Count == 0)
+            return BadRequest(new { message = "Invalid category IDs" });
+
+        var categories = await _db.Categories.Where(c => categoryIds.Contains(c.Id)).ToListAsync();
+        
+        for (int i = 0; i < categoryIds.Count; i++)
+        {
+            var catId = categoryIds[i];
+            var cat = categories.FirstOrDefault(c => c.Id == catId);
+            if (cat != null)
+            {
+                cat.SortOrder = i;
+            }
+        }
+
+        await _db.SaveChangesAsync();
+        return Ok(new { message = "Categories reordered successfully" });
     }
 
     // POST /api/categories   (admin)
@@ -56,8 +81,13 @@ public class CategoriesController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var cat = await _db.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        var cat = await _db.Categories.Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == id);
         if (cat == null) return NotFound(new { message = "Category not found" });
+
+        foreach (var p in cat.Products)
+        {
+            p.CategoryId = null;
+        }
 
         _db.Categories.Remove(cat);
         try

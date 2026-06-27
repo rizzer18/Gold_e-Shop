@@ -1,4 +1,4 @@
-﻿using Gold_e_Shop.Model;
+using Gold_e_Shop.Model;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using static Gold_e_Shop.Enums.Enums;
@@ -26,6 +26,7 @@ public class AppDbContext : DbContext
             e.HasKey(x => x.Id);
             e.Property(x => x.Name).HasMaxLength(100).IsRequired();
             e.HasIndex(x => x.Name).IsUnique();
+            e.Property(x => x.SortOrder).HasDefaultValue(0);
         });
 
         // guests
